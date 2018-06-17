@@ -6,16 +6,6 @@
   Arduino, Raspberry Pi and the likes over the Internet.
   You can easily build graphic interfaces for all your
   projects by simply dragging and dropping widgets.
-
-    Downloads, docs, tutorials: http://www.blynk.cc
-    Sketch generator:           http://examples.blynk.cc
-    Blynk community:            http://community.blynk.cc
-    Follow us:                  http://www.fb.com/blynkapp
-                                http://twitter.com/blynk_app
-
-  Blynk library is licensed under MIT license
-  This example code is in public domain.
-
  *************************************************************
   This example runs directly on NodeMCU.
 
@@ -49,17 +39,18 @@
 
 // You should get Auth Token in the Blynk App.
 // Go to the Project Settings (nut icon).
-char auth[] = "7b368b1fbffb42a4875ee5563cd381ac";
+char auth[] = "Input_auth_here";
 
-// Your WiFi credentials.
+// WiFi credentials.
 // Set password to "" for open networks.
-char ssid[] = "BNK3R";
-char pass[] = "handsomejack";
+char ssid[] = "SSID";
+char pass[] = "PASS";
 
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(D12, D11, D5, D4, D3, D2);
 
-const int sensorPin= A0; //sensor pin connected to analog pin A0
+//sensor pin connected to analog pin A0
+const int sensorPin= A0; 
 float liquid_level;
 int liquid_percentage;
 int top_level = 500;//Maximum water level
@@ -91,7 +82,6 @@ void myTimerEvent()
 }
 
 
-
 void setup()
 {
   // Debug console
@@ -99,8 +89,6 @@ void setup()
   dht.begin();
   Blynk.begin(auth, ssid, pass);
   timer.setInterval(2000L, myTimerEvent);
-
-
   pinMode(sensorPin, INPUT);
   Blynk.virtualWrite(V3, liquid_level);
   Blynk.virtualWrite(V4, liquid_percentage);
@@ -124,26 +112,21 @@ void loop()
   Serial.println(liquid_percentage);//This will print the percentage of liquid in the monitor
   Blynk.virtualWrite(V3, liquid_level);
   Blynk.virtualWrite(V4, liquid_percentage);
-  //delay(100);
-  
   
   Blynk.run();
   timer.run(); // Initiates BlynkTimer
-  // set the cursor to column 0, line 1
-  lcd.print("H:");//print name
-  lcd.print(hum, 0);//print name
+  lcd.print("H:");//print Humidity
+  lcd.print(hum, 0);
   lcd.print("%; ");
-  lcd.print(" T:");//print name
-  lcd.print(temp);//print name
+  lcd.print(" T:");//print Temperature
+  lcd.print(temp);
   lcd.print("C");
   lcd.setCursor(0, 1); // set the cursor to column 0, line 2
-  lcd.print("Water is ");//print name
+  lcd.print("Water is ");//print water level
   lcd.print(liquid_percentage);
   lcd.print("% full.");
   //delay(250);//delay of 0.75sec
   //lcd.scrollDisplayLeft();//shifting data on LCD
   lcd.setCursor(0, 0);// set the cursor to column 0, line1
-
-  
 }
 
